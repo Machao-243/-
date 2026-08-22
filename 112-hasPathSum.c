@@ -18,7 +18,29 @@ void init(struct queNode **p, int val, struct TreeNode *node){
     //申请一个空间
     (*p) = (struct queNode *)malloc(sizeof(struct queNode));
     (*p) -> val = val;
-    (*p) -> node =…    }
+    (*p) -> node = node;
+    (*p) -> next = NULL; 
+}
+
+bool hasPathSum(struct TreeNode* root, int targetSum) {
+    if(root == NULL){
+        return false;
+    }
+
+    queNode *queLeft, *queRight;//队列首尾指针
+    init(&queLeft, root -> val, root);
+    queRight = queLeft;
+
+   while(queLeft != NULL){
+
+        struct TreeNode *curTree = queLeft -> node;
+        int temp = queLeft -> val;
+        //判断是否是叶子节点： 是则判断当前路径的和是否与目标值相等，不是则考虑入队
+        if(curTree -> left == NULL && curTree -> right == NULL){
+            if(temp == targetSum){
+                return true;
+            }
+        }
         //以下这两个是独立的 都是从根出发的
         if(curTree -> left != NULL){
             init(&queRight -> next, temp + curTree -> left -> val, curTree -> left);
